@@ -1,5 +1,3 @@
-// import arithmetic_software.java;
-// import org.junit.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.io.BufferedReader;
@@ -7,14 +5,13 @@ import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.File;
 import java.io.FileFilter;
+
 public class arithmetic_tester {
-    private static AtomicInteger thread_ID_count = new AtomicInteger(0);
     private static AtomicInteger mutantNumber = new AtomicInteger(0);
-    private static AtomicInteger mutantsKilled = new AtomicInteger(0);
-    private static int maxThreads = 8;
+    private static int maxThreads = 12;
     public static void main(String[] args) {
         // define input vectors and expected outputs
-        String[] inputVectors = {"1 2 3", "-10 58 10", "2 2 2 3 3 3 4"};
+        String[] inputVectors = {"1 2 3", "-10 58 10", "2 2 2 3 3 3 4", "2 5 -9 50", "0 0 0"};
 
         // Get the number of mutant files that we will have to iterate over
         // Create a FileFilter 
@@ -33,26 +30,19 @@ public class arithmetic_tester {
             expectedOutputs[i] = getExpectedOutput(inputVectors[i]);
         }
 
+
+        boolean[][] inputVectorsResults = new boolean[maxMutants][inputVectors.length];
+
         // iterate over all the mutant files
         ArrayList<Thread> threads = new ArrayList<Thread>();
-        String[] killedByTable = new String[maxMutants];
         for(int i=0; i<maxThreads; i++){
             Thread thread = new Thread(() -> {
                 // int threadID = thread_ID_count.getAndIncrement();
                 int tempMutantNumber;
                 while((tempMutantNumber = mutantNumber.getAndIncrement()) < maxMutants){
                     System.out.println("Running test vectors on mutant " + tempMutantNumber);
-                    boolean killed = false;
                     for(int j=0;j<inputVectors.length;j++){
-                        if(!runMutant(tempMutantNumber,inputVectors[j],expectedOutputs[j])){
-                            killedByTable[tempMutantNumber]=inputVectors[j];
-                            killed = true;
-                            mutantsKilled.getAndIncrement();
-                            break;
-                        }
-                    }
-                    if(!killed){
-                        killedByTable[tempMutantNumber] = "passed all tests";
+                        inputVectorsResults[tempMutantNumber][j] = runMutant(tempMutantNumber,inputVectors[j],expectedOutputs[j]);
                     }
                 }
             });
@@ -70,19 +60,37 @@ public class arithmetic_tester {
 			}
 		}
 
-        prettyPrintTable(killedByTable);
-        System.out.println("MUTANT COVERAGE: " + (mutantsKilled.doubleValue()/(double)maxMutants) + "%");
-    
+        prettyPrintBigTable(inputVectorsResults);
+        System.out.println("MUTANT COVERAGE: " + getCoverage(inputVectorsResults) + "%");
     }
 
-    public static void prettyPrintTable(String[] killedByTable){
-        for(int i=0;i<killedByTable.length;i++){
-            if(killedByTable[i] != "passed all tests"){
-                System.out.println("Mutant file " + i + " killed by vector [" + killedByTable[i] + "]");
-            } else {
-                System.out.println("Mutant file " + i + " passed all tests");
+    public static void prettyPrintBigTable(boolean[][] resultMatrix){
+        System.out.print("Mutant number\t");
+        for(int i=0;i<resultMatrix[0].length;i++){
+            System.out.print("Vector "+i+"\t");
+        }
+        System.out.print("\n");
+        for(int i=0;i<resultMatrix.length;i++){
+            System.out.print(i+"\t\t\t\t"+resultMatrix[i][0]);
+            for(int j=1;j<resultMatrix[0].length;j++){
+                System.out.print("\t\t"+resultMatrix[i][j]);
+            }
+            System.out.print("\n");
+        }
+    }
+
+    public static double getCoverage(boolean[][] resultMatrix){
+        int mutantsKilled = 0;
+        for(int i=0; i<resultMatrix.length;i++){
+            boolean temp = true;
+            for(int j=0;j<resultMatrix[0].length;j++){
+                temp = (temp&resultMatrix[i][j]);
+            }
+            if(!temp){
+                mutantsKilled++;
             }
         }
+        return ((double)mutantsKilled/(double)resultMatrix.length)*100;
     }
 
     public static boolean runMutant(int mutantNumber,String inputVector,String expectedOutput){
