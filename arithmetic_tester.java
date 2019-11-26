@@ -1,10 +1,15 @@
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.print.attribute.ResolutionSyntax;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.File;
 import java.io.FileFilter;
+import java.util.ArrayList;
+
 
 public class arithmetic_tester {
     private static AtomicInteger mutantNumber = new AtomicInteger(0);
@@ -16,7 +21,6 @@ public class arithmetic_tester {
         // Get the number of mutant files that we will have to iterate over
         // Create a FileFilter 
         FileFilter filter = new FileFilter() { 
-
             public boolean accept(File f) 
             { 
                 return f.getName().endsWith("java"); 
@@ -31,7 +35,7 @@ public class arithmetic_tester {
         }
 
 
-        boolean[][] inputVectorsResults = new boolean[maxMutants][inputVectors.length];
+        int[][] inputVectorsResults = new int[maxMutants][inputVectors.length];
 
         // iterate over all the mutant files
         ArrayList<Thread> threads = new ArrayList<Thread>();
@@ -42,7 +46,20 @@ public class arithmetic_tester {
                 while((tempMutantNumber = mutantNumber.getAndIncrement()) < maxMutants){
                     System.out.println("Running test vectors on mutant " + tempMutantNumber);
                     for(int j=0;j<inputVectors.length;j++){
-                        inputVectorsResults[tempMutantNumber][j] = runMutant(tempMutantNumber,inputVectors[j],expectedOutputs[j]);
+                        boolean compileFailed = false;
+                        int result = runMutant(tempMutantNumber,inputVectors[j],expectedOutputs[j]);
+                        if(result == -2){
+                            for(int k=0;k<inputVectors.length;k++){
+                                inputVectorsResults[tempMutantNumber][k] = result;
+                            }
+                            compileFailed = true;
+                        }
+                        if(compileFailed){
+                            compileFailed = false;
+                            break;
+                        } else {
+                            inputVectorsResults[tempMutantNumber][j] = result;
+                        }
                     }
                 }
             });
@@ -60,40 +77,124 @@ public class arithmetic_tester {
 			}
 		}
 
-        prettyPrintBigTable(inputVectorsResults);
+        prettyPrintTable(inputVectorsResults);
+        greedyInputVectorSelect(inputVectors,inputVectorsResults);
         System.out.println("MUTANT COVERAGE: " + getCoverage(inputVectorsResults) + "%");
     }
 
-    public static void prettyPrintBigTable(boolean[][] resultMatrix){
+    public static void prettyPrintTable(int[][] resultMatrix){
         System.out.print("Mutant number\t");
         for(int i=0;i<resultMatrix[0].length;i++){
             System.out.print("Vector "+i+"\t");
         }
-        System.out.print("\n");
+        System.out.print("Compile\n");
         for(int i=0;i<resultMatrix.length;i++){
-            System.out.print(i+"\t\t\t\t"+resultMatrix[i][0]);
-            for(int j=1;j<resultMatrix[0].length;j++){
-                System.out.print("\t\t"+resultMatrix[i][j]);
+            System.out.print(i+"\t");
+            for(int j=0;j<resultMatrix[0].length;j++){
+                int vectorI = resultMatrix[i][j];
+                System.out.print("\t\t\t");
+                if(vectorI == -2){
+                    // no compile
+                    System.out.print("NA");
+                    if(j == resultMatrix[0].length-1){
+                        System.out.print("\t\t\tERROR");
+                    }
+                } else{
+                    if(vectorI == -1){
+                        System.out.print("E");
+                    } else if(vectorI == 1){
+                        System.out.print("P");
+                    } else if(vectorI == 0){
+                        System.out.print("F");
+                    }
+                    if(j == resultMatrix[0].length-1){
+                        System.out.print("\t\t\tCOMPILED");
+                    }
+                }
+
             }
             System.out.print("\n");
         }
     }
 
-    public static double getCoverage(boolean[][] resultMatrix){
+    public static double getCoverage(int[][] resultMatrix){
         int mutantsKilled = 0;
         for(int i=0; i<resultMatrix.length;i++){
-            boolean temp = true;
+            boolean killed = false;
             for(int j=0;j<resultMatrix[0].length;j++){
-                temp = (temp&resultMatrix[i][j]);
+                if(resultMatrix[i][j] != 1){
+                    killed = true;
+                }
             }
-            if(!temp){
+            if(killed){
                 mutantsKilled++;
+                killed = false;
             }
         }
         return ((double)mutantsKilled/(double)resultMatrix.length)*100;
     }
 
-    public static boolean runMutant(int mutantNumber,String inputVector,String expectedOutput){
+    public static void greedyInputVectorSelect(String[] inputs, int[][] resultMatrix){
+        // reminder for resultMatrix values
+        // 1 -> passed test
+        // 0 -> failed test
+        // -1 -> exception during test
+        // -2 -> did not compile
+        ArrayList<Integer> remainingMutants = getEmptyList(resultMatrix.length);
+        // remove the mutants that cant compile 
+
+        ArrayList<Integer> selectedVectorsIndices = new ArrayList<Integer>();
+        for(int k=0;k<inputs.length;k++){
+            int killsMostVectorIndex = 0;
+            ArrayList<Integer> killedMutants = new ArrayList<Integer>();
+            for(int i=0;i<inputs.length;i++){
+                ArrayList<Integer> temp = killWhichMutants(i,resultMatrix,remainingMutants);
+                if(temp.size() > killedMutants.size()){
+                    killedMutants = temp;
+                    killsMostVectorIndex = i;
+                }
+            }
+            for(int j=0;j<remainingMutants.size();j++){
+                for(int p=0;p<killedMutants.size();p++){
+                    if(remainingMutants.get(j) == killedMutants.get(p)){
+                        remainingMutants.remove(j);
+                    }
+                }
+            }
+            if(killedMutants.size() > 0){
+                selectedVectorsIndices.add(killsMostVectorIndex);
+            }
+        }
+        System.out.println("====================================");
+        System.out.println("Printing the selected vectors");
+        for(int i=0;i<selectedVectorsIndices.size();i++){
+            System.out.println(inputs[selectedVectorsIndices.get(i)]);
+        }
+        System.out.println("Printing the mutants that can't be killed");
+        System.out.println(remainingMutants);
+        // System.out.println("compiled -> " + (resultMatrix.length-noCompile));
+    }
+
+    public static ArrayList<Integer> getEmptyList(int n) {
+        ArrayList<Integer> a = new ArrayList<Integer>();
+        for (int i = 0; i < n; ++i) {
+            a.add(i);
+        }
+        return a;
+    }
+
+    public static ArrayList<Integer> killWhichMutants(int inputVectorIndex, int[][] resultMatrix, ArrayList<Integer> mutantsRemaining){
+        ArrayList<Integer> mutantsKilledIndexList = new ArrayList<Integer>();
+        for(int i=0;i<mutantsRemaining.size();i++){
+            if(resultMatrix[mutantsRemaining.get(i)][inputVectorIndex] != 1){
+                mutantsKilledIndexList.add(mutantsRemaining.get(i));
+            }
+        }
+        return mutantsKilledIndexList;
+    }
+
+
+    public static int runMutant(int mutantNumber,String inputVector,String expectedOutput){
         // function running test on mutant, outputs false when tests fail, true when it succeeds
         try {
             // FIRST TRY TO COMPILE THE PROGRAM
@@ -129,32 +230,32 @@ public class arithmetic_tester {
                     int exitVal2 = process.waitFor();
                     if (exitVal2 == 0) {
                         if(output2.toString().compareTo(expectedOutput) == 0){
-                            return true;
+                            return 1;
                         } else {
-                            return false;
+                            return 0;
                         }
                     } else {
-                        return false;
+                        return -1;
                     }
             
                 } catch (IOException e) {
                     e.printStackTrace();
-                    return false;
+                    return -1;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                    return false;
+                    return -1;
                 }
             } else {
                 // THE COMPILE FAILED, EXIT
-                return false;
+                return -2;
             }
     
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return -1;
         } catch (InterruptedException e) {
             e.printStackTrace();
-            return false;
+            return -1;
         }
     }
 
