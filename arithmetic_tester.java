@@ -43,7 +43,7 @@ public class arithmetic_tester {
         // function running test on mutant, outputs false when tests fail, true when it succeeds
         try {
             // FIRST TRY TO COMPILE THE PROGRAM
-            Process compileProcess = Runtime.getRuntime().exec("javac mutant"+Integer.toString(mutantNumber)+".java", null, null);
+            Process compileProcess = Runtime.getRuntime().exec("javac mutants/mutant"+Integer.toString(mutantNumber)+".java");
     
             StringBuilder output = new StringBuilder();
     
@@ -60,7 +60,7 @@ public class arithmetic_tester {
                 // THE COMPILE WORKED, NOW TRY TO RUN
                 try {
 
-                    Process process = Runtime.getRuntime().exec("java mutant"+Integer.toString(mutantNumber)+" "+inputVector, null, null);
+                    Process process = Runtime.getRuntime().exec("java -cp ./mutants mutant"+Integer.toString(mutantNumber)+" "+inputVector);
             
                     StringBuilder output2 = new StringBuilder();
             
