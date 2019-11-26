@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class arithmetic_tester {
     private static AtomicInteger mutantNumber = new AtomicInteger(0);
-    private static int maxThreads = 12;
+    private static int maxThreads = 8;
     public static void main(String[] args) {
         // define input vectors and expected outputs
         String[] inputVectors = {"1 2 3", "-10 58 10", "2 2 2 3 3 3 4", "2 5 -9 50", "0 0 0"};
