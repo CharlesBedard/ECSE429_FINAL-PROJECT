@@ -1,0 +1,508 @@
+Original line of code:
+1
+import java.util.*;
+Mutated code:
+import java.util.+;
+Mutant type: +
+
+Original line of code:
+1
+import java.util.*;
+Mutated code:
+import java.util.-;
+Mutant type: -
+
+Original line of code:
+1
+import java.util.*;
+Mutated code:
+import java.util./;
+Mutant type: /
+
+Original line of code:
+8
+        for(int i=0; i<int_array.length; i++){
+Mutated code:
+        for(int i=0; i<int_array.length; i-+){
+Mutant type: -
+
+Original line of code:
+8
+        for(int i=0; i<int_array.length; i++){
+Mutated code:
+        for(int i=0; i<int_array.length; i*+){
+Mutant type: *
+
+Original line of code:
+8
+        for(int i=0; i<int_array.length; i++){
+Mutated code:
+        for(int i=0; i<int_array.length; i/+){
+Mutant type: /
+
+Original line of code:
+8
+        for(int i=0; i<int_array.length; i++){
+Mutated code:
+        for(int i=0; i<int_array.length; i+-){
+Mutant type: -
+
+Original line of code:
+8
+        for(int i=0; i<int_array.length; i++){
+Mutated code:
+        for(int i=0; i<int_array.length; i+*){
+Mutant type: *
+
+Original line of code:
+8
+        for(int i=0; i<int_array.length; i++){
+Mutated code:
+        for(int i=0; i<int_array.length; i+/){
+Mutant type: /
+
+Original line of code:
+9
+            sum += int_array[i];
+Mutated code:
+            sum -= int_array[i];
+Mutant type: -
+
+Original line of code:
+9
+            sum += int_array[i];
+Mutated code:
+            sum *= int_array[i];
+Mutant type: *
+
+Original line of code:
+9
+            sum += int_array[i];
+Mutated code:
+            sum /= int_array[i];
+Mutant type: /
+
+Original line of code:
+11
+        return sum/int_array.length;
+Mutated code:
+        return sum+int_array.length;
+Mutant type: +
+
+Original line of code:
+11
+        return sum/int_array.length;
+Mutated code:
+        return sum-int_array.length;
+Mutant type: -
+
+Original line of code:
+11
+        return sum/int_array.length;
+Mutated code:
+        return sum*int_array.length;
+Mutant type: *
+
+Original line of code:
+16
+        for (int i = 0; i < n-1; i++){
+Mutated code:
+        for (int i = 0; i < n-1; i-+){
+Mutant type: -
+
+Original line of code:
+16
+        for (int i = 0; i < n-1; i++){
+Mutated code:
+        for (int i = 0; i < n-1; i*+){
+Mutant type: *
+
+Original line of code:
+16
+        for (int i = 0; i < n-1; i++){
+Mutated code:
+        for (int i = 0; i < n-1; i/+){
+Mutant type: /
+
+Original line of code:
+16
+        for (int i = 0; i < n-1; i++){
+Mutated code:
+        for (int i = 0; i < n-1; i+-){
+Mutant type: -
+
+Original line of code:
+16
+        for (int i = 0; i < n-1; i++){
+Mutated code:
+        for (int i = 0; i < n-1; i+*){
+Mutant type: *
+
+Original line of code:
+16
+        for (int i = 0; i < n-1; i++){
+Mutated code:
+        for (int i = 0; i < n-1; i+/){
+Mutant type: /
+
+Original line of code:
+16
+        for (int i = 0; i < n-1; i++){
+Mutated code:
+        for (int i = 0; i < n+1; i++){
+Mutant type: +
+
+Original line of code:
+16
+        for (int i = 0; i < n-1; i++){
+Mutated code:
+        for (int i = 0; i < n*1; i++){
+Mutant type: *
+
+Original line of code:
+16
+        for (int i = 0; i < n-1; i++){
+Mutated code:
+        for (int i = 0; i < n/1; i++){
+Mutant type: /
+
+Original line of code:
+17
+            for (int j = 0; j < n-i-1; j++){
+Mutated code:
+            for (int j = 0; j < n-i-1; j-+){
+Mutant type: -
+
+Original line of code:
+17
+            for (int j = 0; j < n-i-1; j++){
+Mutated code:
+            for (int j = 0; j < n-i-1; j*+){
+Mutant type: *
+
+Original line of code:
+17
+            for (int j = 0; j < n-i-1; j++){
+Mutated code:
+            for (int j = 0; j < n-i-1; j/+){
+Mutant type: /
+
+Original line of code:
+17
+            for (int j = 0; j < n-i-1; j++){
+Mutated code:
+            for (int j = 0; j < n-i-1; j+-){
+Mutant type: -
+
+Original line of code:
+17
+            for (int j = 0; j < n-i-1; j++){
+Mutated code:
+            for (int j = 0; j < n-i-1; j+*){
+Mutant type: *
+
+Original line of code:
+17
+            for (int j = 0; j < n-i-1; j++){
+Mutated code:
+            for (int j = 0; j < n-i-1; j+/){
+Mutant type: /
+
+Original line of code:
+17
+            for (int j = 0; j < n-i-1; j++){
+Mutated code:
+            for (int j = 0; j < n+i-1; j++){
+Mutant type: +
+
+Original line of code:
+17
+            for (int j = 0; j < n-i-1; j++){
+Mutated code:
+            for (int j = 0; j < n*i-1; j++){
+Mutant type: *
+
+Original line of code:
+17
+            for (int j = 0; j < n-i-1; j++){
+Mutated code:
+            for (int j = 0; j < n/i-1; j++){
+Mutant type: /
+
+Original line of code:
+17
+            for (int j = 0; j < n-i-1; j++){
+Mutated code:
+            for (int j = 0; j < n-i+1; j++){
+Mutant type: +
+
+Original line of code:
+17
+            for (int j = 0; j < n-i-1; j++){
+Mutated code:
+            for (int j = 0; j < n-i*1; j++){
+Mutant type: *
+
+Original line of code:
+17
+            for (int j = 0; j < n-i-1; j++){
+Mutated code:
+            for (int j = 0; j < n-i/1; j++){
+Mutant type: /
+
+Original line of code:
+18
+                if (int_array[j] > int_array[j+1]) { 
+Mutated code:
+                if (int_array[j] > int_array[j-1]) { 
+Mutant type: -
+
+Original line of code:
+18
+                if (int_array[j] > int_array[j+1]) { 
+Mutated code:
+                if (int_array[j] > int_array[j*1]) { 
+Mutant type: *
+
+Original line of code:
+18
+                if (int_array[j] > int_array[j+1]) { 
+Mutated code:
+                if (int_array[j] > int_array[j/1]) { 
+Mutant type: /
+
+Original line of code:
+20
+                    int_array[j] = int_array[j+1]; 
+Mutated code:
+                    int_array[j] = int_array[j-1]; 
+Mutant type: -
+
+Original line of code:
+20
+                    int_array[j] = int_array[j+1]; 
+Mutated code:
+                    int_array[j] = int_array[j*1]; 
+Mutant type: *
+
+Original line of code:
+20
+                    int_array[j] = int_array[j+1]; 
+Mutated code:
+                    int_array[j] = int_array[j/1]; 
+Mutant type: /
+
+Original line of code:
+21
+                    int_array[j+1] = temp; 
+Mutated code:
+                    int_array[j-1] = temp; 
+Mutant type: -
+
+Original line of code:
+21
+                    int_array[j+1] = temp; 
+Mutated code:
+                    int_array[j*1] = temp; 
+Mutant type: *
+
+Original line of code:
+21
+                    int_array[j+1] = temp; 
+Mutated code:
+                    int_array[j/1] = temp; 
+Mutant type: /
+
+Original line of code:
+31
+        int index = (int) Math.ceil((double) int_array.length/2.0);
+Mutated code:
+        int index = (int) Math.ceil((double) int_array.length+2.0);
+Mutant type: +
+
+Original line of code:
+31
+        int index = (int) Math.ceil((double) int_array.length/2.0);
+Mutated code:
+        int index = (int) Math.ceil((double) int_array.length-2.0);
+Mutant type: -
+
+Original line of code:
+31
+        int index = (int) Math.ceil((double) int_array.length/2.0);
+Mutated code:
+        int index = (int) Math.ceil((double) int_array.length*2.0);
+Mutant type: *
+
+Original line of code:
+32
+        return (double) new_array[index -1];
+Mutated code:
+        return (double) new_array[index +1];
+Mutant type: +
+
+Original line of code:
+32
+        return (double) new_array[index -1];
+Mutated code:
+        return (double) new_array[index *1];
+Mutant type: *
+
+Original line of code:
+32
+        return (double) new_array[index -1];
+Mutated code:
+        return (double) new_array[index /1];
+Mutant type: /
+
+Original line of code:
+38
+        for(int i=0; i<int_array.length; i++){
+Mutated code:
+        for(int i=0; i<int_array.length; i-+){
+Mutant type: -
+
+Original line of code:
+38
+        for(int i=0; i<int_array.length; i++){
+Mutated code:
+        for(int i=0; i<int_array.length; i*+){
+Mutant type: *
+
+Original line of code:
+38
+        for(int i=0; i<int_array.length; i++){
+Mutated code:
+        for(int i=0; i<int_array.length; i/+){
+Mutant type: /
+
+Original line of code:
+38
+        for(int i=0; i<int_array.length; i++){
+Mutated code:
+        for(int i=0; i<int_array.length; i+-){
+Mutant type: -
+
+Original line of code:
+38
+        for(int i=0; i<int_array.length; i++){
+Mutated code:
+        for(int i=0; i<int_array.length; i+*){
+Mutant type: *
+
+Original line of code:
+38
+        for(int i=0; i<int_array.length; i++){
+Mutated code:
+        for(int i=0; i<int_array.length; i+/){
+Mutant type: /
+
+Original line of code:
+39
+            sum_of_dif += Math.abs(int_array[i] - avg);
+Mutated code:
+            sum_of_dif -= Math.abs(int_array[i] - avg);
+Mutant type: -
+
+Original line of code:
+39
+            sum_of_dif += Math.abs(int_array[i] - avg);
+Mutated code:
+            sum_of_dif *= Math.abs(int_array[i] - avg);
+Mutant type: *
+
+Original line of code:
+39
+            sum_of_dif += Math.abs(int_array[i] - avg);
+Mutated code:
+            sum_of_dif /= Math.abs(int_array[i] - avg);
+Mutant type: /
+
+Original line of code:
+39
+            sum_of_dif += Math.abs(int_array[i] - avg);
+Mutated code:
+            sum_of_dif += Math.abs(int_array[i] + avg);
+Mutant type: +
+
+Original line of code:
+39
+            sum_of_dif += Math.abs(int_array[i] - avg);
+Mutated code:
+            sum_of_dif += Math.abs(int_array[i] * avg);
+Mutant type: *
+
+Original line of code:
+39
+            sum_of_dif += Math.abs(int_array[i] - avg);
+Mutated code:
+            sum_of_dif += Math.abs(int_array[i] / avg);
+Mutant type: /
+
+Original line of code:
+41
+        return sum_of_dif/int_array.length;
+Mutated code:
+        return sum_of_dif+int_array.length;
+Mutant type: +
+
+Original line of code:
+41
+        return sum_of_dif/int_array.length;
+Mutated code:
+        return sum_of_dif-int_array.length;
+Mutant type: -
+
+Original line of code:
+41
+        return sum_of_dif/int_array.length;
+Mutated code:
+        return sum_of_dif*int_array.length;
+Mutant type: *
+
+Original line of code:
+48
+        for(int i=0; i<args.length; i++){
+Mutated code:
+        for(int i=0; i<args.length; i-+){
+Mutant type: -
+
+Original line of code:
+48
+        for(int i=0; i<args.length; i++){
+Mutated code:
+        for(int i=0; i<args.length; i*+){
+Mutant type: *
+
+Original line of code:
+48
+        for(int i=0; i<args.length; i++){
+Mutated code:
+        for(int i=0; i<args.length; i/+){
+Mutant type: /
+
+Original line of code:
+48
+        for(int i=0; i<args.length; i++){
+Mutated code:
+        for(int i=0; i<args.length; i+-){
+Mutant type: -
+
+Original line of code:
+48
+        for(int i=0; i<args.length; i++){
+Mutated code:
+        for(int i=0; i<args.length; i+*){
+Mutant type: *
+
+Original line of code:
+48
+        for(int i=0; i<args.length; i++){
+Mutated code:
+        for(int i=0; i<args.length; i+/){
+Mutant type: /
+
+Total "+" mutants created: 9
+Total "-" mutants created: 19
+Total "*" mutants created: 23
+Total "/" mutants created: 21
